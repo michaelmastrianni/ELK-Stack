@@ -2,7 +2,7 @@
 
 The files in this repository were used to configure the network depicted below.
 
-![Network Diagram](Network DIagram.PNG)
+![Network Diagram](https://github.com/michaelmastrianni/ELK-Stack/blob/544adc3b1001859eade08c074c0f248cde600d5f/Network%20DIagram.PNG)
 
 These files have been tested and used to generate a live ELK deployment on Amazon Web Services. They can be used to recreate the entire deployment pictured above. Alternatively, select portions of the configuration files may be used to install only certain pieces of it, such as Filebeat.
 
