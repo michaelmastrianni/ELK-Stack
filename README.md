@@ -87,4 +87,3 @@ Run the playbook, and navigate to ELK Stack Kibana to check that the installatio
 - To make the playbook work on specific machines edit /etc/ansible/hosts to ensure the correct machine is commented out or needs to be uncommented._
 - Filebeat is installed on the Webservers and the ELK server is its own separate machine.
 - To check the machine is running go to http://172.31.29.11/app/kibana
-the playbook, update the files, etc._
