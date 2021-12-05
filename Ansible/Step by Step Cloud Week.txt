@@ -1,0 +1,74 @@
+Setp by step cloud week
+
+1- Create two ec2 instances with same key using cloud formation template
+2- Open "ICMP IPV4 all" for both instances
+3- Install docker on one instance
+*	sudo yum update -y
+*	sudo amazon-linux-extras install docker -y
+*	sudo service docker start
+*	sudo chkconfig docker on
+*	sudo usermod -a -G docker ec2-user
+
+4- Copy key to the EC2 instance that has docker installed
+*	scp -i "Oregon_Key.pem" Oregon_Key.pem ec2-user@ec2-18-236-250-159.us-west-2.compute.amazonaws.com:/home/ec2-user
+5- Download ansible docker image	
+*	sudo docker pull cyberxsecurity/ansible
+6- Start the ansible docker container with bash prompt
+*	sudo docker run -ti cyberxsecurity/ansible bash
+7- Run "ansible" to verify ansible is installed
+8- Type exit to jump out of the container
+9- View a list of containers that have ran on the instance and find the container name
+*	docker container list -a
+10- Copy the key into the container
+*	sudo docker cp Oregon_Key.pem <container name>:/etc/ansible
+11- Start the container
+*	sudo docker start <container name>
+12- Connect the bash shell of the container
+sudo docker attach <container name>
+13- move to the ansible folder
+*	cd /etc/ansible
+14- Edit the hosts file and add the IP address of the second instance to the file after uncomenting "[webservers]"
+*	nano /etc/hosts
+[webservers]
+172.31.24.41
+15- Edit the ansible.cfg file and add the user of the remote machine like the following
+remote_user = ec2-user
+16- Ping the second instance using the command below
+*	ansible -m ping all --key-file Oregon_Key.pem
+17- Create a playbook file and call it apache-playbook.yaml
+---
+- name: Apache install & start services
+  hosts: all
+  become: true
+
+  tasks:
+  - name: install Apache
+    yum:
+      name: httd
+      state: latest
+
+  - name: start Apache
+    service:
+      name: httpd
+      state: started
+18- Apply or run this playbook using the command below
+*	ansible-playbook -i hosts apache-playbook.yaml --key-file Oregon_Key.pem
+19- Open Ec2 console to create a Load Balancer
+20- On the left hand side scroll to the bottom and click on "Load Balancers"
+21- Click Create LoadBalancer
+22- Click "Create Application Load Balancer"
+23- Provide a load balancer name
+24- Select "Internet Facing" and IPv4
+25- Select your VPC and the subnets holding your EC2 instance
+26- Select your Webservers Security Group
+27- Under listeners and routing select "Create Target Group"
+28- Select "Instances" and provide a name for the target group
+29- Select HTTP1 and hit next
+30- Select your webservers in two different subnets and click "Include as pending below"
+31- Click create target group
+32- Now back to creating our Load balancer select the target group that we created and click create load balancer
+33- Wait for the load balancer to be provisioned
+34- Copy the DNS name of the load balancer and paste in the browser. The web servers should open.
+
+
+

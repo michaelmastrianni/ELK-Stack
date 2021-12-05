@@ -1,0 +1,17 @@
+---
+  - name: Apache install & start servic
+    hosts: webservers
+    remote_user: ec2-user
+    become: true
+
+    tasks:
+    - name: install Apache
+      yum:
+        name: httpd
+        state: latest
+
+
+    - name: start Apache
+      service:
+        name: httpd
+        state: started

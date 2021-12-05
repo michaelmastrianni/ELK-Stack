@@ -1,0 +1,51 @@
+--- 
+Resources: 
+  Ec2Instance:
+    Type: "AWS::EC2::Instance" 
+    Properties:
+      AvailabilityZone: us-east-2a
+      ImageId: ami-00dfe2c7ce89a450b
+      InstanceType: t2.micro
+      KeyName: project
+      UserData: 
+        ? "Fn::Base64"
+        : |
+            #!/bin/bash
+            sudo yum install httpd -y
+            sudo service httpd start
+            chkconfig httpd on
+
+  Ec2Instance2:
+    Type: "AWS::EC2::Instance" 
+    Properties:
+      AvailabilityZone: us-east-2b
+      ImageId: ami-00dfe2c7ce89a450b
+      InstanceType: t2.micro
+      KeyName: project
+      UserData: 
+        ? "Fn::Base64"
+        : |
+            #!/bin/bash
+            sudo yum install httpd -y
+            sudo service httpd start
+            chkconfig httpd on
+
+  Ec2Instance3:
+    Type: "AWS::EC2::Instance" 
+    Properties:
+      AvailabilityZone: us-east-2b
+      ImageId: ami-00dfe2c7ce89a450b
+      InstanceType: t2.micro
+      KeyName: project
+      UserData: 
+        ? "Fn::Base64"
+        : |
+            #!/bin/bash
+            sudo yum install httpd -y
+            sudo service httpd start
+            chkconfig httpd on
+
+Parameters:
+  SSHKey:
+    Type: AWS::EC2::KeyPair::KeyName
+    
